@@ -4,7 +4,7 @@ from marshmallow import fields
 class VisitSchema(ma.Schema):
     class Meta:
         ordered = True
-        fields = ["visit_id", "client_id", "schedule_id", "client"]
+        fields = ["visit_id", "client_id", "schedule_id", "client", "visit_timestamp"]
         load_only = ["client_id"]
     client = fields.Nested("ClientSchema", only=("first_name","last_name",))
     

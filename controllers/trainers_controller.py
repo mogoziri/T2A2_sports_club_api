@@ -1,8 +1,8 @@
 from flask import Blueprint, jsonify, request
+from flask_jwt_extended import jwt_required, get_jwt_identity
 from main import db
 from models.trainers import Trainer
 from schemas.trainer_schema import trainer_schema, trainers_schema
-from flask_jwt_extended import jwt_required, get_jwt_identity
 
 trainers = Blueprint("trainers", __name__, url_prefix="/trainers")
 
@@ -54,7 +54,7 @@ def new_trainer():
 @trainers.route("/<int:id>", methods=["PUT"])
 # A token is needed for this request
 @jwt_required()
-def update_trainer():
+def update_trainer(id):
     # A token is not enough, the identity needs to be an admin
     if get_jwt_identity() != "admin":
         return {"error": "You don't have admin rights to update a trainer"}, 401

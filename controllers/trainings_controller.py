@@ -1,8 +1,9 @@
 from flask import Blueprint, jsonify, request
+from flask_jwt_extended import jwt_required, get_jwt_identity
 from main import db
+from models.trainers import Trainer
 from models.trainings import Training
 from schemas.training_schema import training_schema, trainings_schema
-from flask_jwt_extended import jwt_required, get_jwt_identity
 
 trainings = Blueprint("trainings", __name__, url_prefix="/trainings")
 
@@ -29,6 +30,8 @@ def get_trainings():
 def get_training(id):
     # Get the training from the database by id
     training_by_id = Training.query.get(id)
+    if not training_by_id:
+        return {"error": "Training not found"}, 404
     result = training_schema.dump(training_by_id)
     return jsonify(result), 200
 
@@ -66,8 +69,12 @@ def update_training(id):
         return {"error": "training id not found"}, 404
     # Get the training details from the request
     training_fields = training_schema.load(request.json)
+    trainer = Trainer.query.get(training_fields["trainer_id"])
+    if not trainer:
+        return {"error": "trainer id not found"}, 400
 
     training.training_type = training_fields["training_type"]
+    training.trainer_id = training_fields["trainer_id"]
 
     db.session.commit()
 

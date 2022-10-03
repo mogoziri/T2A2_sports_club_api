@@ -1,10 +1,10 @@
 from flask import Blueprint, jsonify, request
+from flask_jwt_extended import jwt_required, get_jwt_identity
 from main import db
 from models.room import Room
 from models.schedule import Schedule
 from models.trainings import Training
 from schemas.schedule_schema import schedule_schema, schedules_schema
-from flask_jwt_extended import jwt_required, get_jwt_identity
 
 schedule = Blueprint("schedule", __name__, url_prefix="/schedule")
 
@@ -20,8 +20,10 @@ def get_schedules():
 @schedule.route("/<int:id>", methods=["GET"])
 def get_schedule(id):
     # Get the schedule item from the db by id
-    schedule_by_id = Schedule.query.get(id)
-    result = schedule_schema.dump(schedule_by_id)
+    schedule = Schedule.query.get(id)
+    if not schedule:
+        return {"error": "Schedule id not found"}, 404
+    result = schedule_schema.dump(schedule)
     return jsonify(result), 200
 
 

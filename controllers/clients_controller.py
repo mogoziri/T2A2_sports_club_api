@@ -1,11 +1,26 @@
 from flask import Blueprint, jsonify, request
+from flask_jwt_extended import jwt_required, get_jwt_identity
 from main import db
 from main import bcrypt
 from models.clients import Client
-from schemas.client_schema import client_schema
-from flask_jwt_extended import jwt_required, get_jwt_identity
+from schemas.client_schema import client_schema, clients_schema
 
 clients = Blueprint("clients", __name__, url_prefix="/clients")
+
+
+@clients.route("/", methods=["GET"])
+# A token is needed for this request
+@jwt_required()
+def get_clients():
+    # Only token is not enough to get information about all clients, the identity needs to be an admin
+    if get_jwt_identity() != "admin":
+        return {
+            "error": "You don't have admin rights to get information about  clients"
+        }, 401
+    # Get all clients from the db
+    clients_list = Client.query.all()
+    result = clients_schema.dump(clients_list)
+    return jsonify(result), 200
 
 
 @clients.route("/<int:id>", methods=["GET"])

@@ -1,12 +1,11 @@
 from flask import Blueprint, jsonify, request
+from flask_jwt_extended import jwt_required, get_jwt_identity
 from main import db
 from models.clients import Client
 from models.room import Room
 from models.schedule import Schedule
 from models.visit import Visit
 from schemas.visit_schema import visit_schema, visits_schema
-
-from flask_jwt_extended import jwt_required, get_jwt_identity
 
 visit = Blueprint("visit", __name__, url_prefix="/visit")
 
@@ -64,7 +63,7 @@ def new_visit():
     room = Room.query.get(schedule.room_id)
 
     if len(actual_visits) >= room.capacity:
-        return {"error": "Room capacity exceeded"}
+        return {"error": "Room capacity exceeded"}, 400
 
     visit_new = Visit(
         client_id=visit_fields["client_id"],

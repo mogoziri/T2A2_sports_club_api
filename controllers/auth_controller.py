@@ -1,15 +1,16 @@
 from datetime import timedelta
 from flask import Blueprint, request
+from flask_jwt_extended import create_access_token
+from marshmallow.exceptions import ValidationError
 from main import db
 from main import bcrypt
-from flask_jwt_extended import create_access_token
+from models.admin import Admin
 from models.clients import Client
 from schemas.client_schema import client_schema
-from models.admin import Admin
 from schemas.admin_schema import admin_schema
-from marshmallow.exceptions import ValidationError
 
 auth = Blueprint("auth", __name__, url_prefix="/auth")
+
 
 # Register a new client
 @auth.route("/register", methods=["POST"])
