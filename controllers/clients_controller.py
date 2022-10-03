@@ -54,7 +54,7 @@ def update_client(id):
 
     db.session.commit()
 
-    return jsonify(client_schema.dump(client)), 201
+    return jsonify(client_schema.dump(client)), 200
 
 
 # Delete a client from the database
@@ -74,4 +74,4 @@ def delete_client(id):
     db.session.delete(client)
     db.session.commit()
 
-    return {"message": "Client deleted successfully"}
+    return {"message": "Client deleted successfully"}, 200

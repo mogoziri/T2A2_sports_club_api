@@ -102,4 +102,4 @@ def update_visit(id):
 
     db.session.commit()
 
-    return jsonify(visit_schema.dump(visit)), 201
+    return jsonify(visit_schema.dump(visit)), 200

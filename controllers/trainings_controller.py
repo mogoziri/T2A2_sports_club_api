@@ -61,17 +61,17 @@ def update_training(id):
         return {"error": "You don't have admin rights to create a new training"}, 401
     # Find the training in the db by id
     training = Training.query.get(id)
-    # Check if class exists in the db
+    # Check if training exists in the db
     if not training:
-        return {"error": "training id not found"}
-    # Get the class details from the request
+        return {"error": "training id not found"}, 404
+    # Get the training details from the request
     training_fields = training_schema.load(request.json)
 
     training.training_type = training_fields["training_type"]
 
     db.session.commit()
 
-    return jsonify(training_schema.dump(training)), 201
+    return jsonify(training_schema.dump(training)), 200
 
 
 # Delete a training from the database
@@ -91,4 +91,4 @@ def delete_training(id):
     db.session.delete(training)
     db.session.commit()
 
-    return {"message": "Training_id deleted successfully"}
+    return {"message": "Training_id deleted successfully"}, 200

@@ -84,7 +84,7 @@ def update_schedule(id):
 
     db.session.commit()
 
-    return jsonify(schedule_schema.dump(schedule))
+    return jsonify(schedule_schema.dump(schedule)), 200
 
 
 # Delete a schedule_id from the database
@@ -104,4 +104,4 @@ def delete_schedule(id):
     db.session.delete(schedule)
     db.session.commit()
 
-    return {"message": "Schedule_id deleted successfully"}
+    return {"message": "Schedule_id deleted successfully"}, 200

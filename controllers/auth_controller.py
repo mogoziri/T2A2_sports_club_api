@@ -44,7 +44,7 @@ def register_client():
         identity=str(client.client_id), expires_delta=timedelta(days=1)
     )
 
-    return {"username": client.username, "token": token}
+    return {"username": client.username, "token": token}, 201
 
 
 # Login client (POST method)
@@ -66,7 +66,7 @@ def login_client():
         identity=str(client.client_id), expires_delta=timedelta(days=1)
     )
 
-    return {"username": client.username, "token": token}
+    return {"username": client.username, "token": token}, 200
 
 
 # Login admin (POST method)
@@ -86,7 +86,7 @@ def login_admin():
 
     token = create_access_token(identity="admin", expires_delta=timedelta(days=1))
 
-    return {"username": admin.username, "token": token}
+    return {"username": admin.username, "token": token}, 200
 
 
 @auth.errorhandler(ValidationError)
