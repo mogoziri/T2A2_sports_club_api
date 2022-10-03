@@ -1,6 +1,8 @@
 ## T2A2 - API Webserver Project
 ## Sports Club API
 
+[Github repository](https://github.com/mogoziri/T2A2_sports_club_api)
+
 ### R1, R2 Identification of the _problem_ you are trying to solve by building this particular _app_ and why is it a _problem_ that needs solving?
 
 In modern realities, people have less and less time to monitor their physical form. We use transport instead of walking, many types of work have switched completely to a remote mode. Most of the sports centers involve the purchase of a club membership and is a problem for many people, as the price is too high. The purpose of this work is to develop an application for a sports club that provides sports training on an hourly basis. You can only pay for the workouts you actually attended. As a result, it is expected that more people will be able to afford to improve their physical fitness
